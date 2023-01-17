@@ -75,6 +75,7 @@ function displayResponse(result) {
       var newText = document.createTextNode(result);
       var newLine = document.createElement("br");
       document.body.appendChild(newHeader);
+      document.body.appendChild(newLine);
       document.body.appendChild(newText);
       document.body.appendChild(newLine);
 }
@@ -87,10 +88,6 @@ function displayResponse(result) {
 <button onclick="myFunction()">Click me</button>
 
 </body>
-<script>
-displayResponse("test");
-document.body.appendChild(document.createTextNode('blue'));
-</script>
 </html>
 
 """.trimIndent()
