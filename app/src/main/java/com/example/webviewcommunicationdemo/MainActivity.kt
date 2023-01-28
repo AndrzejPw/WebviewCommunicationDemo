@@ -22,8 +22,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-    fun openActivityForResult() {
-        startForResult.launch(Intent(this, SecondActivity::class.java))
+    fun openActivityForResult(message: String) {
+        val intent = Intent(this, SecondActivity::class.java)
+        intent.putExtra(FROM_WEBVIEW_EXTRA, message)
+        startForResult.launch(intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

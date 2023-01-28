@@ -5,7 +5,8 @@
     <string name="first_fragment_label">Web View</string>
     <string name="second_fragment_label">User Input</string>
     <string name="next">Next</string>
-    <string name="back_to_web_view">Back to Web View</string>
+    <string name="response_hint">Type message here</string>
+    <string name="back_to_web_view">Send to Web View</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>

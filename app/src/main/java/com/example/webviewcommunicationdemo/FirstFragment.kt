@@ -47,16 +47,16 @@ class FirstFragment : Fragment() {
     }
 
     fun postResult(result: String) {
-        binding.webView.evaluateJavascript("displayResponse('$result')", null)
+        binding.webView.evaluateJavascript("displayAndroidResponse('$result')", null)
     }
 }
 
 class WebAppInterface(private val mainActivity: MainActivity) {
     /** Show a toast from the web page  */
     @JavascriptInterface
-    fun showToast(toast: String?) {
+    fun sendToAndroid(message: String) {
         mainActivity.runOnUiThread {
-            mainActivity.openActivityForResult()
+            mainActivity.openActivityForResult(message)
         }
     }
 }
@@ -64,29 +64,52 @@ class WebAppInterface(private val mainActivity: MainActivity) {
 val html = """
 <html>
 <head>
+    <style>
+     .sent{
+        background: blue;
+        color:white;
+      }
+      .received{
+        background: green;
+        color:white;
+      }
+    </style>
 <script>
-function myFunction() {
-    Android.showToast('Hello, Android!');
+function displayAndroidResponse(result){
+  displayMessage(result, "received");
 }
-var count = 0;
-function displayResponse(result) {
-      count += 1;
-      var newHeader = document.createTextNode("Result no: " + count);
-      var newText = document.createTextNode(result);
-      var newLine = document.createElement("br");
-      document.body.appendChild(newHeader);
-      document.body.appendChild(newLine);
-      document.body.appendChild(newText);
-      document.body.appendChild(newLine);
+function displayMessage(message, cssClass) {
+  const messages = document.getElementById('chat-messages');
+  const li = document.createElement('li');
+  li.innerHTML = message;
+  li.classList.add(cssClass);
+  messages.appendChild(li);
 }
 </script>
 </head>
 <body>
+<div id="chat-interface">
+  <ul id="chat-messages">
+  </ul>
+  <form id="chat-form">
+    <input type="text" id="chat-input" placeholder="Type your message here"></input>
+    <input type="submit" value="Send"></input>
+  </form>
+</div>
+
 <p>
 </p>
-
-<button onclick="myFunction()">Click me</button>
-
+<script>
+const form = document.getElementById('chat-form');
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const input = document.getElementById('chat-input');
+  const message = input.value;
+  input.value = '';
+  displayMessage(message, "sent");
+  Android.sendToAndroid(message);
+});
+</script>
 </body>
 </html>
 
